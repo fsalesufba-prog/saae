@@ -1,0 +1,162 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../../../services/api';
+import Alert from '../../../components/ui/Alert';
+
+const TariffsCreate: React.FC = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    category: '',
+    consumption_range: '',
+    tariff_type: 'Água',
+    value: '',
+    valid_from: '',
+    valid_to: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      await api.post('/tariffs', {
+        ...formData,
+        value: parseFloat(formData.value)
+      });
+      navigate('/admin/tariffs');
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Erro ao criar tarifa');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="tariffs-page">
+      <div className="page-header">
+        <h1>Nova Tarifa</h1>
+      </div>
+
+      {error && (
+        <Alert 
+          type="error" 
+          message={error} 
+          onClose={() => setError('')}
+        />
+      )}
+
+      <form onSubmit={handleSubmit} className="admin-form">
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="category">Categoria</label>
+            <input
+              type="text"
+              id="category"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              required
+              placeholder="Residencial, Comercial, Industrial"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="tariff_type">Tipo</label>
+            <select
+              id="tariff_type"
+              name="tariff_type"
+              value={formData.tariff_type}
+              onChange={handleChange}
+              required
+            >
+              <option value="Água">Água</option>
+              <option value="Esgoto">Esgoto</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="consumption_range">Faixa de Consumo</label>
+          <input
+            type="text"
+            id="consumption_range"
+            name="consumption_range"
+            value={formData.consumption_range}
+            onChange={handleChange}
+            required
+            placeholder="Ex: 0 - 10 m³"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="value">Valor (R$)</label>
+          <input
+            type="number"
+            id="value"
+            name="value"
+            value={formData.value}
+            onChange={handleChange}
+            required
+            step="0.01"
+            min="0"
+          />
+        </div>
+
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="valid_from">Válido a partir de</label>
+            <input
+              type="date"
+              id="valid_from"
+              name="valid_from"
+              value={formData.valid_from}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="valid_to">Válido até (opcional)</label>
+            <input
+              type="date"
+              id="valid_to"
+              name="valid_to"
+              value={formData.valid_to}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        <div className="form-actions">
+          <button 
+            type="button" 
+            className="btn-secondary"
+            onClick={() => navigate('/admin/tariffs')}
+          >
+            Cancelar
+          </button>
+          <button 
+            type="submit" 
+            className="btn-primary"
+            disabled={loading}
+          >
+            {loading ? 'Salvando...' : 'Salvar'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default TariffsCreate;

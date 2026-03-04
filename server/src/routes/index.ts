@@ -1,0 +1,42 @@
+import { Router } from 'express';
+import authRoutes from './authRoutes';
+import userRoutes from './userRoutes';
+import newsRoutes from './newsRoutes';
+import carouselRoutes from './carouselRoutes';
+import galleryRoutes from './galleryRoutes';
+import bidRoutes from './bidRoutes';
+import contractRoutes from './contractRoutes';
+import cipaRoutes from './cipaRoutes';
+import waterQualityRoutes from './waterQualityRoutes';
+import pageRoutes from './pageRoutes';
+import dictionaryRoutes from './dictionaryRoutes';
+import tipsRoutes from './tipsRoutes';
+import tariffRoutes from './tariffRoutes';
+import paymentLocationRoutes from './paymentLocationRoutes';
+import phoneRoutes from './phoneRoutes';
+import faqRoutes from './faqRoutes';
+import settingsRoutes from './settingsRoutes';
+import contactRoutes from './contactRoutes';
+
+const router = Router();
+
+router.use('/auth', authRoutes);
+router.use('/users', userRoutes);
+router.use('/news', newsRoutes);
+router.use('/carousel', carouselRoutes);
+router.use('/galleries', galleryRoutes);
+router.use('/bids', bidRoutes);
+router.use('/contracts', contractRoutes);
+router.use('/cipa', cipaRoutes);
+router.use('/water-quality', waterQualityRoutes);
+router.use('/pages', pageRoutes);
+router.use('/dictionary', dictionaryRoutes);
+router.use('/tips', tipsRoutes);
+router.use('/tariffs', tariffRoutes);
+router.use('/payment-locations', paymentLocationRoutes);
+router.use('/phones', phoneRoutes);
+router.use('/faq', faqRoutes);
+router.use('/settings', settingsRoutes);
+router.use('/contact', contactRoutes);
+
+export default router;

@@ -1,0 +1,54 @@
+:root {
+  /* Colors */
+  --primary: #0066b3;
+  --primary-dark: #004d8c;
+  --primary-light: #4da3ff;
+  --secondary: #00a896;
+  --accent: #ff6b6b;
+  --dark: #1a2b3c;
+  --gray: #6c757d;
+  --light: #f8f9fa;
+  --white: #ffffff;
+  
+  /* Gradients */
+  --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+  --gradient-hover: linear-gradient(135deg, var(--primary-dark), #00897b);
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  
+  /* Shadows */
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 15px 40px rgba(0, 102, 179, 0.15);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+  
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 3rem;
+  --spacing-xl: 4rem;
+  
+  /* Fonts */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  /* Container */
+  --container-width: 1400px;
+  
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  
+  /* Transitions */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Z-index layers */
+  --z-header: 100;
+  --z-dropdown: 200;
+  --z-modal: 1000;
+  --z-tooltip: 1500;
+}

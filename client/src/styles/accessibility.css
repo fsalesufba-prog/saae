@@ -1,0 +1,96 @@
+/* Grayscale */
+body.grayscale {
+  filter: grayscale(100%);
+}
+
+/* High Contrast */
+body.high-contrast {
+  filter: contrast(150%);
+}
+
+body.high-contrast * {
+  background: black !important;
+  color: yellow !important;
+  border-color: yellow !important;
+}
+
+/* Negative Contrast */
+body.negative-contrast {
+  filter: invert(100%) hue-rotate(180deg);
+}
+
+/* Light Background */
+body.light-background {
+  background: #ffffff !important;
+}
+
+body.light-background * {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+/* Underline Links */
+body.underline-links a {
+  text-decoration: underline !important;
+}
+
+/* Readable Font */
+body.readable-font {
+  font-family: 'Arial', 'Helvetica', sans-serif !important;
+  line-height: 1.8 !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* Focus Styles */
+*:focus-visible {
+  outline: 3px solid var(--primary) !important;
+  outline-offset: 2px !important;
+}
+
+/* Skip to Content */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary);
+  color: white;
+  padding: 8px;
+  z-index: 9999;
+  text-decoration: none;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Larger Click Area for Accessibility */
+button, 
+a, 
+[role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Reduce Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

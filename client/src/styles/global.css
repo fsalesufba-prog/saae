@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import './variables.css';
 @import './accessibility.css';
+@import './components/header.css';
+@import './components/footer.css';
+@import './components/cards.css';
+@import './components/carousel.css';
+@import './components/quick-links.css';
+@import './components/news-features.css';
+@import './components/bids.css';
+@import './pages/home.css';
 
 * {
   margin: 0;

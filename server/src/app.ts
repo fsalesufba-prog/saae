@@ -32,4 +32,9 @@ app.use('/api', limiter);
 app.use('/api', routes);
 app.use(errorHandler);
 
+app.use(express.static(path.join(__dirname, '../../client/build')));
+app.get('*', (_req, res) => {
+    res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+});
+
 export default app;

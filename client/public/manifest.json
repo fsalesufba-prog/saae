@@ -1,0 +1,9 @@
+{
+  "short_name": "SAAE Linhares",
+  "name": "SAAE Linhares - Serviço Autônomo de Água e Esgoto",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

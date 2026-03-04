@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { FaqController } from '../controllers/FaqController';
-import { authenticateToken, authorizeEditor } from '../middleware/auth';
+import { authenticateToken, authorizeEditor, authorizeAdmin } from '../middleware/auth';
 
 const router = Router();
 const controller = new FaqController();

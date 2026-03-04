@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { CipaController } from '../controllers/CipaController';
-import { authenticateToken, authorizeEditor } from '../middleware/auth';
+import { authenticateToken, authorizeEditor, authorizeAdmin } from '../middleware/auth';
 
 const router = Router();
 const controller = new CipaController();

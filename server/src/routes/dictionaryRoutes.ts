@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { DictionaryController } from '../controllers/DictionaryController';
-import { authenticateToken, authorizeEditor } from '../middleware/auth';
+import { authenticateToken, authorizeEditor, authorizeAdmin } from '../middleware/auth';
 
 const router = Router();
 const controller = new DictionaryController();

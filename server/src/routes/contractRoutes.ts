@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { ContractController } from '../controllers/ContractController';
-import { authenticateToken, authorizeEditor } from '../middleware/auth';
+import { authenticateToken, authorizeEditor, authorizeAdmin } from '../middleware/auth';
 import { upload } from '../config/upload';
 
 const router = Router();

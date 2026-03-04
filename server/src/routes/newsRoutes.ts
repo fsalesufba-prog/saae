@@ -8,6 +8,7 @@ const controller = new NewsController();
 
 // Rotas públicas
 router.get('/', controller.list);
+router.get('/latest', controller.list);
 router.get('/slug/:slug', controller.getBySlug);
 
 // Rotas protegidas

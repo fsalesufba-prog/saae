@@ -109,20 +109,13 @@ const AlbumDetalhe: React.FC = () => {
             ))}
           </div>
 
-          {lightboxOpen && (
-            <Lightbox
-              mainSrc={images[photoIndex].file_path}
-              nextSrc={images[(photoIndex + 1) % images.length].file_path}
-              prevSrc={images[(photoIndex + images.length - 1) % images.length].file_path}
-              onCloseRequest={() => setLightboxOpen(false)}
-              onMovePrevRequest={() =>
-                setPhotoIndex((photoIndex + images.length - 1) % images.length)
-              }
-              onMoveNextRequest={() =>
-                setPhotoIndex((photoIndex + 1) % images.length)
-              }
-            />
-          )}
+          <Lightbox
+            open={lightboxOpen}
+            close={() => setLightboxOpen(false)}
+            index={photoIndex}
+            slides={images.map(img => ({ src: img.file_path }))}
+            on={{ view: ({ index }) => setPhotoIndex(index) }}
+          />
         </div>
       </div>
     </Layout>

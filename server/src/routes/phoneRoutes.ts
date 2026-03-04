@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { PhoneController } from '../controllers/PhoneController';
-import { authenticateToken, authorizeEditor } from '../middleware/auth';
+import { authenticateToken, authorizeEditor, authorizeAdmin } from '../middleware/auth';
 
 const router = Router();
 const controller = new PhoneController();

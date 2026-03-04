@@ -8,7 +8,7 @@ export class CarouselController {
   async list(req: Request, res: Response) {
     try {
       const [rows] = await pool.execute(
-        'SELECT * FROM carousel ORDER BY order_num ASC'
+        'SELECT * FROM carousel ORDER BY order_position ASC'
       );
       res.json(rows);
     } catch (error) {
@@ -20,7 +20,7 @@ export class CarouselController {
   async listActive(req: Request, res: Response) {
     try {
       const [rows] = await pool.execute(
-        'SELECT * FROM carousel WHERE active = true ORDER BY order_num ASC'
+        'SELECT * FROM carousel WHERE active = true ORDER BY order_position ASC'
       );
       res.json(rows);
     } catch (error) {
@@ -53,25 +53,24 @@ export class CarouselController {
 
   async create(req: Request, res: Response) {
     try {
-      const { title, location_text, link, active } = req.body;
+      const { title, subtitle, link_url, active } = req.body;
       const file = req.file;
 
       if (!file) {
         throw new AppError('Imagem é obrigatória', 400);
       }
 
-      // Obter a maior ordem atual
       const [orderResult]: any = await pool.execute(
-        'SELECT MAX(order_num) as maxOrder FROM carousel'
+        'SELECT MAX(order_position) as maxOrder FROM carousel'
       );
       const nextOrder = (orderResult[0].maxOrder || 0) + 1;
 
       const imagePath = `/uploads/carousel/${file.filename}`;
 
       const [result]: any = await pool.execute(
-        `INSERT INTO carousel (title, image_path, location_text, link, order_num, active)
+        `INSERT INTO carousel (title, subtitle, image_path, link_url, order_position, active)
          VALUES (?, ?, ?, ?, ?, ?)`,
-        [title || null, imagePath, location_text || null, link || null, nextOrder, active === 'true']
+        [title || null, subtitle || null, imagePath, link_url || null, nextOrder, active === 'true']
       );
 
       res.status(201).json({
@@ -91,7 +90,7 @@ export class CarouselController {
   async update(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { title, location_text, link, active } = req.body;
+      const { title, subtitle, link_url, active } = req.body;
       const file = req.file;
 
       const [existing]: any = await pool.execute(
@@ -106,7 +105,6 @@ export class CarouselController {
       let imagePath = existing[0].image_path;
       
       if (file) {
-        // Remover imagem antiga
         const oldPath = path.join(__dirname, '../../..', existing[0].image_path);
         if (fs.existsSync(oldPath)) {
           fs.unlinkSync(oldPath);
@@ -116,13 +114,13 @@ export class CarouselController {
 
       await pool.execute(
         `UPDATE carousel 
-         SET title = ?, image_path = ?, location_text = ?, link = ?, active = ?
+         SET title = ?, subtitle = ?, image_path = ?, link_url = ?, active = ?
          WHERE id = ?`,
         [
           title || null,
+          subtitle || null,
           imagePath,
-          location_text || null,
-          link || null,
+          link_url || null,
           active === 'true',
           id
         ]
@@ -152,7 +150,6 @@ export class CarouselController {
         throw new AppError('Item não encontrado', 404);
       }
 
-      // Remover arquivo de imagem
       const imagePath = path.join(__dirname, '../../..', existing[0].image_path);
       if (fs.existsSync(imagePath)) {
         fs.unlinkSync(imagePath);
@@ -160,10 +157,9 @@ export class CarouselController {
 
       await pool.execute('DELETE FROM carousel WHERE id = ?', [id]);
 
-      // Reordenar itens restantes
       await pool.execute(
-        'UPDATE carousel SET order_num = order_num - 1 WHERE order_num > ?',
-        [existing[0].order_num]
+        'UPDATE carousel SET order_position = order_position - 1 WHERE order_position > ?',
+        [existing[0].order_position]
       );
 
       res.json({ message: 'Item removido com sucesso' });
@@ -190,23 +186,23 @@ export class CarouselController {
         throw new AppError('Item não encontrado', 404);
       }
 
-      if (current[0].order_num === 0) {
+      if (current[0].order_position === 1) {
         throw new AppError('Item já está no topo', 400);
       }
 
       const [previous]: any = await pool.execute(
-        'SELECT * FROM carousel WHERE order_num = ?',
-        [current[0].order_num - 1]
+        'SELECT * FROM carousel WHERE order_position = ?',
+        [current[0].order_position - 1]
       );
 
       await pool.execute(
-        'UPDATE carousel SET order_num = ? WHERE id = ?',
-        [current[0].order_num - 1, id]
+        'UPDATE carousel SET order_position = ? WHERE id = ?',
+        [current[0].order_position - 1, id]
       );
 
       await pool.execute(
-        'UPDATE carousel SET order_num = ? WHERE id = ?',
-        [current[0].order_num, previous[0].id]
+        'UPDATE carousel SET order_position = ? WHERE id = ?',
+        [current[0].order_position, previous[0].id]
       );
 
       res.json({ message: 'Item movido para cima' });
@@ -234,26 +230,26 @@ export class CarouselController {
       }
 
       const [maxOrder]: any = await pool.execute(
-        'SELECT MAX(order_num) as maxOrder FROM carousel'
+        'SELECT MAX(order_position) as maxOrder FROM carousel'
       );
 
-      if (current[0].order_num === maxOrder[0].maxOrder) {
+      if (current[0].order_position === maxOrder[0].maxOrder) {
         throw new AppError('Item já está no final', 400);
       }
 
       const [next]: any = await pool.execute(
-        'SELECT * FROM carousel WHERE order_num = ?',
-        [current[0].order_num + 1]
+        'SELECT * FROM carousel WHERE order_position = ?',
+        [current[0].order_position + 1]
       );
 
       await pool.execute(
-        'UPDATE carousel SET order_num = ? WHERE id = ?',
-        [current[0].order_num + 1, id]
+        'UPDATE carousel SET order_position = ? WHERE id = ?',
+        [current[0].order_position + 1, id]
       );
 
       await pool.execute(
-        'UPDATE carousel SET order_num = ? WHERE id = ?',
-        [current[0].order_num, next[0].id]
+        'UPDATE carousel SET order_position = ? WHERE id = ?',
+        [current[0].order_position, next[0].id]
       );
 
       res.json({ message: 'Item movido para baixo' });

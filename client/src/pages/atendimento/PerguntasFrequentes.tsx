@@ -24,7 +24,7 @@ const PerguntasFrequentes: React.FC = () => {
         const response = await api.get('/faq');
         setFaqs(response.data);
         
-        const cats = [...new Set(response.data.map((f: Faq) => f.category))];
+        const cats = Array.from(new Set(response.data.map((f: Faq) => f.category))) as string[];
         setCategories(cats);
       } catch (error) {
         console.error('Erro ao carregar FAQ:', error);

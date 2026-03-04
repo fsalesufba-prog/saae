@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { PaymentLocationController } from '../controllers/PaymentLocationController';
-import { authenticateToken, authorizeEditor } from '../middleware/auth';
+import { authenticateToken, authorizeEditor, authorizeAdmin } from '../middleware/auth';
 
 const router = Router();
 const controller = new PaymentLocationController();

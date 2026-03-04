@@ -39,7 +39,7 @@ const Contratos: React.FC = () => {
         loadContracts();
     }, []);
 
-    const years = [...new Set(contracts.map(c => c.year))].sort((a, b) => b - a);
+    const years = Array.from(new Set(contracts.map(c => c.year))).sort((a, b) => b - a);
 
     const filteredContracts = contracts.filter(contract => {
         const matchesSearch = contract.process_number.toLowerCase().includes(search.toLowerCase()) ||

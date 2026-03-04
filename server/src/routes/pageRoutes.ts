@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { PageController } from '../controllers/PageController';
-import { authenticateToken, authorizeEditor } from '../middleware/auth';
+import { authenticateToken, authorizeEditor, authorizeAdmin } from '../middleware/auth';
 
 const router = Router();
 const controller = new PageController();

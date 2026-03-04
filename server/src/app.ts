@@ -9,6 +9,7 @@ import routes from './routes';
 import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
+app.set('trust proxy', 1);
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -20,7 +21,7 @@ app.use(helmet({
 }));
 app.use(compression());
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || 'https://saaelinhares.com.br',
+    origin: process.env.CORS_ORIGIN === '*' ? true : (process.env.CORS_ORIGIN || 'https://saaelinhares.com.br'),
     credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
